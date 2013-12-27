@@ -4,8 +4,6 @@ require 'optparse'
 require 'lib/application_bundle'
 require 'lib/provisioning_profile'
 
-PLIST_BUDDY_CMD="/usr/libexec/PlistBuddy"
-
 $be_verbose=false
 
 def verbose_msg message
@@ -33,18 +31,6 @@ def parse_options(args)
     opts.on("-p", "--profile PATH_TO_PROFILE", "Path to profile") do |profile_location|
       options[:profile_location] = profile_location
     end
-
-    #opts.on("-d", "--display-name [DISPLAY_NAME]", "Display name") do |display_name|
-    #  options[:display_name] = display_name
-    #end
-
-    #opts.on("-e", "--entitlements [ENTITLEMENTS]", "Entitlements") do |entitlements|
-    #  options[:entitlements] = entitlements
-    #end
-
-    #opts.on("-k", "--keychain [KEYCHAIN]", "Keychain") do |keychain|
-    #  options[:keychain] = keychain
-    #end
 
     opts.on("-b", "--bundle-id [BUNDLE_IDENTIFIER]", "Bundle identifier") do |bundle_id|
       options[:bundle_id] = bundle_id
@@ -78,9 +64,6 @@ def parse_options(args)
 
   end.parse!(args)
 
-  # default values (if not supplied)
-  options[:temp_folder]="temp" if not options[:temp_folder]
-
   options[:input_file]=ARGV[0]
   mandatory=[options[:profile_location],options[:identity],options[:output_ipa],options[:input_file]]
   expected_number=mandatory.count
@@ -92,25 +75,6 @@ def parse_options(args)
   end
 
   $be_verbose=(options[:verbose]!=nil)
-
-  return options
-end
-
-def validate_options options
-# Check if the supplied file is an ipa or an app file
-  valid=true
-  if not File.exists? options[:input_file]
-    puts "File not found: #{options[:input_file]}"
-    valid=false
-  end
-  if not File.exists? options[:input_file]
-    puts "File not found: #{options[:output_ipa]}"
-    valid=false
-  else
-    # Check if the supplied file is an ipa or an app file
-    options[:input_is_app]=File.directory? options[:input_file]
-  end
-  exit 1 if not valid
 
   return options
 end

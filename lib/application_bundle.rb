@@ -24,14 +24,14 @@ class ApplicationBundle
       raise "[#{file_or_folder_location}] is not a valid application archive" if not @is_valid_zip_archive
     end
 
-    @src_location=file_or_folder_location
-    @temp_folder="temp"
-    @plist_buddy_cmd="/usr/libexec/PlistBuddy"
-
     yield self if block_given?
 
+    @src_location=file_or_folder_location
+    @temp_folder||="temp"
+    @plist_buddy_cmd||="/usr/libexec/PlistBuddy"
+
     if not @is_application_folder
-      # wipeout  folder
+      # wipe out temp folder
       `rm -Rf #{temp_folder}/Payload 2>&1 > /dev/null`
       # unzip application bundle
       `unzip -q "#{@src_location}" -d #{@temp_folder}`

@@ -117,13 +117,18 @@ end
 
 def main
 
-  options=validate_options parse_options ARGV
+  options=parse_options ARGV
 
   verbose_msg "Passed options:\n#{options.inspect}"
 
-  provisioning_profile=ProvisioningProfile.new options[:profile_location]
-  application_bundle=ApplicationBundle.new options[:input_file] do |ab|
-    ab.temp_folder=options[:temp_folder]
+  begin
+    provisioning_profile=ProvisioningProfile.new options[:profile_location]
+    application_bundle=ApplicationBundle.new options[:input_file] do |ab|
+      ab.temp_folder=options[:temp_folder]
+    end
+  rescue => error
+    error_msg error
+    exit 1
   end
 
   new_bundle_id = options[:bundle_id]
@@ -139,6 +144,8 @@ def main
   application_bundle.set_provisioning_profile provisioning_profile.profile_location
   application_bundle.sign_with_identity options[:identity]
   application_bundle.package_to_ipa options[:output_ipa]
+
+  puts "\nApplication archive created and signed: #{options[:output_ipa]}"
 
 end
 

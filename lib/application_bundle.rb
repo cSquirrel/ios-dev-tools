@@ -16,16 +16,12 @@ class ApplicationBundle
 
   def initialize file_or_folder_location
 
-    if not File.exists? file_or_folder_location
-      return nil
-    end
+    raise "Application bundle \"#{file_or_folder_location}\" doesn't exist" if not File.exists? file_or_folder_location
 
     @is_application_folder=File.directory?(file_or_folder_location) && file_or_folder_location.end_with?(".app")
     if not @is_application_folder
       @is_valid_zip_archive=`file #{file_or_folder_location}`.include? "Zip archive data"
-      if not @is_valid_zip_archive
-        return nil
-      end
+      raise "[#{file_or_folder_location}] is not a valid application archive" if not @is_valid_zip_archive
     end
 
     @src_location=file_or_folder_location

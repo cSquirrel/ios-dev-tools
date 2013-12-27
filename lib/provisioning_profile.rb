@@ -4,9 +4,7 @@ class ProvisioningProfile
 
   def initialize profile_location
 
-    if not File.exists? profile_location
-      return nil
-    end
+    raise "Profisioning profile file \"#{profile_location}\" doesn't exist" if not File.exists? profile_location
 
     @profile_location=profile_location
 

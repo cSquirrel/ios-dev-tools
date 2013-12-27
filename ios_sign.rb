@@ -3,7 +3,9 @@
 #./floatsign source "iPhone Distribution: Name" -p "path/to/profile" [-d "display name"]  [-e entitlements] [-k keychain] -b "BundleIdentifier" outputIpa
 
 require 'optparse'
-require 'pathname'
+#require 'pathname'
+require 'lib/application_bundle'
+require 'lib/provisioning_profile'
 
 PLIST_BUDDY_CMD="/usr/libexec/PlistBuddy"
 
@@ -114,25 +116,6 @@ def validate_options options
   return options
 end
 
-def set_bundle_id plist_file, new_bundle_id
-
-  verbose_msg "Changing bundle id to: #{new_bundle_id}"
-  `#{PLIST_BUDDY_CMD} -c "Set :CFBundleIdentifier #{new_bundle_id}" "#{plist_file}"`
-
-end
-
-def replace_embedded_profile application_folder, profile_location
-
-    `cp "#{profile_location}" "#{application_folder}/embedded.mobileprovision"`
-
-end
-
-def repackage application_folder, output_ipa, temp_folder
-
-  `(cd #{temp_folder} && zip -qr ../temp.ipa *) && mv temp.ipa "#{output_ipa}"`
-
-end
-
 # parse and validate options
 # stop execution if required
 options=validate_options parse_options ARGV
@@ -140,42 +123,26 @@ $be_verbose=(options[:verbose]!=nil)
 
 verbose_msg "Passed options:\n#{options.inspect}"
 
-# wipe out temp folder
-`rm -Rf #{options[:temp_folder]} 2>&1 > /dev/null`
-
-# prepare input
-if options[:input_is_app]
-  `mkdir -p "#{options[:temp_folder]}/Payload"`
-  `cp -Rf "#{options[:input_file]}" "temp/Payload/#{options[:input_file]}"`
-else
-  # unzip archive (if input is not app bundle)
-  `unzip -q "#{options[:input_file]}" -d #{options[:temp_folder]}` if not options[:input_is_app]
+ab=ApplicationBundle.new options[:input_file] do |ab|
+  ab.temp_folder=options[:temp_folder]
 end
-
-# unlock keychain if selected
-#if options[:keychain]
-#  `security list-keychains -s #{options[:keychain]} && security unlock #{options[:keychain]} && security default-keychain -s #{options[:keychain]}`
-#end
 
 # Set the app name
 # The app name is the only file within the Payload directory
-application_folder=Dir.glob("#{options[:temp_folder]}/Payload/*")[0]
-application_name=Pathname.new(application_folder).basename
+application_folder=ab.location
+application_name=ab.application_name
 verbose_msg "application_name: #{application_name}"
 
-current_name=`#{PLIST_BUDDY_CMD} -c "Print :CFBundleDisplayName" "#{application_folder}/Info.plist"`
-current_bundle_identifier=`#{PLIST_BUDDY_CMD} -c "Print :CFBundleIdentifier" "#{application_folder}/Info.plist"`
-provisioning_bundle_identifier=`egrep -a -A 2 application-identifier "#{options[:profile_location]}" | grep string | sed -e 's/<string>//' -e 's/<\\/string>//' -e 's/ //' | awk '{split($0,a,"."); i = length(a); for(ix=2; ix <= i;ix++){ s=s a[ix]; if(i!=ix){s=s "."};} print s;}'`
-current_bundle_identifier.strip!
-provisioning_bundle_identifier.strip!
+current_name=ab.display_name
+current_bundle_identifier=ab.bundle_id
 
-new_bundle_id = current_bundle_identifier
-new_bundle_id = options[:bundle_id] if options[:bundle_id]
+pp=ProvisioningProfile.new options[:profile_location]
+provisioning_bundle_identifier=pp.application_identifier
 
-bundle_id_prefix=provisioning_bundle_identifier.sub(/\*$/,"")
-is_bundle_id_compatible=new_bundle_id.start_with? bundle_id_prefix
+new_bundle_id = options[:bundle_id]
+new_bundle_id ||= current_bundle_identifier
 
-if not is_bundle_id_compatible
+if not pp.is_compatible_with_bundle_id new_bundle_id
   error_msg "Provisioning profile identifier [#{provisioning_bundle_identifier}] is not compatible with bundle identifier [#{new_bundle_id}]\n \
   \tMaybe you should use -b switch to overwrite the bundle identifier?"
   exit 1
@@ -186,13 +153,13 @@ verbose_msg "current_bundle_identifier: #{current_bundle_identifier}"
 verbose_msg "provisioning_bundle_identifier: #{provisioning_bundle_identifier}"
 
 #
-set_bundle_id("#{application_folder}/Info.plist", options[:bundle_id]) if options[:bundle_id]
+ab.bundle_id = new_bundle_id
 
 #
-replace_embedded_profile application_folder, options[:profile_location]
-verbose_msg "/usr/bin/codesign -f -s \"#{options[:identity]}\" --resource-rules=\"#{application_folder}/ResourceRules.plist\" \"#{application_folder}\""
-`/usr/bin/codesign -f -s "#{options[:identity]}" --resource-rules="#{application_folder}/ResourceRules.plist" "#{application_folder}"`
+ab.set_provisioning_profile pp.profile_location
+ab.sign_with_identity options[:identity]
 
-`codesign -d -vvv "#{application_folder}"` if $be_verbose
+#`codesign -d -vvv "#{application_folder}"` if $be_verbose
 
-repackage application_folder, options[:output_ipa], options[:temp_folder]
+#repackage application_folder, options[:output_ipa], options[:temp_folder]
+ab.package_to_ipa options[:output_ipa]

@@ -1,8 +1,7 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
 require 'optparse'
-require 'lib/application_bundle'
-require 'lib/provisioning_profile'
+require 'ios_dev_tools'
 
 $be_verbose=false
 

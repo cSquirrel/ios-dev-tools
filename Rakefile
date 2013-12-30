@@ -23,7 +23,7 @@ task :publish => [:package] do |t|
   end
 
   # Publish to rubygems.org and tag the repo
-  `gem push ios_dev_tools-#{IOSDevTools::VERSION}.gem && git tag --force --message="Release version: #{IOSDevTools::VERSION}" v_#{IOSDevTools::VERSION}`
+  `gem push ios_dev_tools-#{IOSDevTools::VERSION}.gem && git tag --message="Release version: #{IOSDevTools::VERSION}" v_#{IOSDevTools::VERSION}`
 end
 
 desc "Run tests"

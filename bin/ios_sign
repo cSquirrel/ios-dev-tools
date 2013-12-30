@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
+require 'rubygems'
 require 'ios_dev_tools'
 
 $be_verbose=false
@@ -85,8 +86,8 @@ def main
   verbose_msg "Passed options:\n#{options.inspect}"
 
   begin
-    provisioning_profile=ProvisioningProfile.new options[:profile_location]
-    application_bundle=ApplicationBundle.new options[:input_file] do |ab|
+    provisioning_profile=IOSDevTools::ProvisioningProfile.new options[:profile_location]
+    application_bundle=IOSDevTools::ApplicationBundle.new options[:input_file] do |ab|
       ab.temp_folder=options[:temp_folder]
     end
   rescue => error

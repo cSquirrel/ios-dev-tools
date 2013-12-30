@@ -7,8 +7,10 @@ Gem::Specification.new do |s|
   s.authors     = ["Marcin Maciukiewicz"]
   s.email       = 'mm@csquirrel.com'
   s.executables << 'ios_sign'
+  s.rubyforge_project = "nowarning"
   s.files       = ["lib/ios_dev_tools.rb", "lib/ios_dev_tools/application_bundle.rb", "lib/ios_dev_tools/provisioning_profile.rb"]
+  s.require_paths = ["lib"]
   s.homepage    =
-      'http://rubygems.org/gems/ios_dev_tools'
+      'https://github.com/cSquirrel/ios_dev_tools'
   s.license       = 'MIT'
 end

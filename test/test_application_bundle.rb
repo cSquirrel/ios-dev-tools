@@ -3,9 +3,12 @@ require 'ios_dev_tools'
 
 class ApplicationBundleTest < Test::Unit::TestCase
 
-  def test_english_hello
-    assert_equal "hello world",
-                 Hola.hi("english")
+  def test_create_with_not_existing_folder
+
+    assert_raise RuntimeError do
+      IOSDevTools::ApplicationBundle.new "dummy_folder"
+    end
+
   end
 
 end

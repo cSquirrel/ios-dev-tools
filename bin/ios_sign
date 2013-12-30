@@ -1,8 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
-require 'rubygems'
-require 'ios_dev_tools'
+
+begin
+  require 'ios_dev_tools'
+rescue LoadError
+  require 'rubygems'
+  require 'ios_dev_tools'
+end
 
 $be_verbose=false
 

@@ -28,7 +28,7 @@ def parse_options(args)
   options = Hash.new
   OptionParser.new do |opts|
 
-    opts.banner = "Usage: ios_sign.rb -i \"iPhone Distribution: Name\" -p path/to/profile -o output/ipa/file [options] inputIpa"
+    opts.banner = "Usage: ios_sign -i \"iPhone Distribution: Name\" -p path/to/profile -o output/ipa/file [options] inputIpa"
 
     opts.separator ""
     opts.separator "Options:"
@@ -58,6 +58,11 @@ def parse_options(args)
 
     opts.on("-v", "--verbose", "Run verbosely") do |v|
       options[:verbose] = v
+    end
+
+    opts.on("--version", "Show version and exit") do |v|
+      puts "Version: #{IOSDevTools::VERSION}"
+      exit
     end
 
     # No argument, shows at tail.  This will print an options summary.

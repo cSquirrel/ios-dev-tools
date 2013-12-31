@@ -15,6 +15,7 @@ module IOSDevTools
     attr_accessor :temp_folder
     attr_accessor :plist_buddy_cmd
     attr_accessor :application_name
+    attr_accessor :info_plist
 
     def initialize file_or_folder_location
 
@@ -30,7 +31,6 @@ module IOSDevTools
 
       @src_location=file_or_folder_location
       @temp_folder||="temp"
-      @plist_buddy_cmd||="/usr/libexec/PlistBuddy"
 
       if not @is_application_folder
         # wipe out temp folder
@@ -44,26 +44,11 @@ module IOSDevTools
       end
 
       @application_name=Pathname.new(@location).basename
+      @info_plist=InfoPlist.new "#{@location}/Info.plist"
 
     end
 
-    def display_name
-      `#{@plist_buddy_cmd} -c "Print :CFBundleDisplayName" "#{@location}/Info.plist"`.strip
-    end
 
-    def display_name= new_name
-      return if not new_name
-      `#{@plist_buddy_cmd} -c "Set :CFBundleDisplayName #{new_name}" "#{@location}/Info.plist"`
-    end
-
-    def bundle_id
-      `#{@plist_buddy_cmd} -c "Print :CFBundleIdentifier" "#{@location}/Info.plist"`.strip
-    end
-
-    def bundle_id= new_bundle_id
-      return if not new_bundle_id
-      `#{@plist_buddy_cmd} -c "Set :CFBundleIdentifier #{new_bundle_id}" "#{@location}/Info.plist"`
-    end
 
     def set_provisioning_profile new_provisioning_profile_location
       return if not new_provisioning_profile_location

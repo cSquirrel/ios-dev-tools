@@ -13,21 +13,43 @@ module IOSDevTools
         command_name="help"
       end
 
-      valid_commands=["sign", "pack", "verify", "help"]
-      if not valid_commands.include? command_name
+      if not Tool.valid_command_name? command_name
           puts "Unknown command"
           exit
       end
 
-      # convert snake case to camel case
-      c=command_name.gsub(/(?<=_|^)(\w)/){$1.upcase}.gsub(/(?:_)(\w)/,'\1')
       # create class definition
-      command_class=Object.const_get("IOSDevTools::#{c}")
+      command_class=Tool.command_name_to_class command_name
+
+      # NOTE:shift argument array to loose first element which is command name
+      # the command is already recognised and is not needed any more
+      # this simplifies options parsing inside commands
+      ARGV.shift
+
       # use common factory method to create the command
-      command=command_class.create_with_args(ARGV)
+      command=command_class.create_with_args ARGV
       # execute the command if created
       command.execute if command
 
+    end
+
+    def self.valid_command_name? command_name
+
+      valid_commands=["sign", "pack", "verify", "help"]
+      return valid_commands.include? command_name
+
+    end
+
+    def self.command_name_to_class command_name
+      # convert snake case to camel case
+      c=command_name.gsub(/(?<=_|^)(\w)/){$1.upcase}.gsub(/(?:_)(\w)/,'\1')
+      # create class definition
+      command_class=nil
+      begin
+        command_class=Object.const_get("IOSDevTools::#{c}")
+      rescue NameError,e
+      end
+      return command_class
     end
 
     def self.parse_options(args)

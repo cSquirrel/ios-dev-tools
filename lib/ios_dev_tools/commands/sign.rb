@@ -19,6 +19,12 @@ module IOSDevTools
 
     end
 
+    def self.display_help
+
+      Sign.parse_options ["-h"]
+
+    end
+
     def verbose_msg message
 
       puts message if @be_verbose
@@ -33,11 +39,11 @@ module IOSDevTools
 
     def execute
 
-      verbose_msg "Passed options:\n#{options.inspect}"
+      verbose_msg "Passed options:\n#{@options.inspect}"
 
       begin
-        provisioning_profile=IOSDevTools::ProvisioningProfile.new options[:profile_location]
-        application_bundle=IOSDevTools::ApplicationBundle.new options[:input_file] do |ab|
+        provisioning_profile=IOSDevTools::ProvisioningProfile.new @options[:profile_location]
+        application_bundle=IOSDevTools::ApplicationBundle.new @options[:input_file] do |ab|
           ab.temp_folder=options[:temp_folder]
         end
       rescue => error
@@ -45,7 +51,7 @@ module IOSDevTools
         exit 1
       end
 
-      new_bundle_id = options[:bundle_id]
+      new_bundle_id = @options[:bundle_id]
       new_bundle_id ||= application_bundle.bundle_id
 
       if not provisioning_profile.is_compatible_with_bundle_id new_bundle_id
@@ -56,8 +62,8 @@ module IOSDevTools
 
       application_bundle.bundle_id = new_bundle_id
       application_bundle.set_provisioning_profile provisioning_profile.profile_location
-      application_bundle.sign_with_identity options[:identity]
-      application_bundle.package_to_ipa options[:output_ipa]
+      application_bundle.sign_with_identity @options[:identity]
+      application_bundle.package_to_ipa @options[:output_ipa]
 
       puts "\nApplication archive created and signed: #{options[:output_ipa]}"
 
@@ -68,7 +74,8 @@ module IOSDevTools
       options = Hash.new
       OptionParser.new do |opts|
 
-        opts.banner = "Usage: ios_sign -i \"iPhone Distribution: Name\" -p path/to/profile -o output/ipa/file [options] inputIpa"
+        opts.banner = "Usage:
+  ios_tool sign -i \"iPhone Distribution: Name\" -p path/to/profile -o output/ipa/file [options] inputIpa"
 
         opts.separator ""
         opts.separator "Options:"

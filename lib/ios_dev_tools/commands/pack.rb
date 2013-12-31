@@ -7,6 +7,13 @@ module IOSDevTools
       Pack.new
     end
 
+    def self.display_help
+
+      puts "
+TODO: 'pack' command help
+          "
+    end
+
     def execute
       puts "TODO: execute"
     end

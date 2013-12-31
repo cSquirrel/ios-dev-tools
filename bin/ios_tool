@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+begin
+  require 'ios_dev_tools'
+rescue LoadError
+  require 'rubygems'
+  require 'ios_dev_tools'
+end
+
+
+tool=IOSDevTools::Tool.new
+tool.process_cmd_line_args ARGV

@@ -52,7 +52,10 @@ Command line:
     $> ios_tool sign -i "iPhone Distribution: Acme Ltd" -p ~/my_profiles/Acme_Enterprise_Distribution.mobileprovision -o Acme-QA-Test.ipa -b com.acme.qa.app Acme.ipa
 
 
-## ios_verify
+## Verify
 Verifies .ipa archive according to number of rules. 
 
 To be used for validation before submission to Apple App Store.
+
+## Pack
+Packs application folder into .ipa archive. 

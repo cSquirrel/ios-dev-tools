@@ -7,6 +7,13 @@ module IOSDevTools
       Verify.new
     end
 
+    def self.display_help
+
+      puts "
+TODO: 'verify' command help
+          "
+    end
+
     def execute
       puts "TODO: execute"
     end

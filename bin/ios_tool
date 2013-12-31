@@ -9,6 +9,5 @@ rescue LoadError
   require 'ios_dev_tools'
 end
 
-
 tool=IOSDevTools::Tool.new
 tool.process_cmd_line_args ARGV

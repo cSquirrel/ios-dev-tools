@@ -13,8 +13,7 @@ Thsi will install ruby gem and binaries. Common destination for the binaries is 
 
 Try the following command to make sure the installation was successful
 
-    $> ios_sign -h
-    Usage: ios_sign.rb -i "iPhone Distribution: Name" -p path/to/profile -o output/ipa/file [options] inputIpa
+    $> ios_tool -h
     
     ...
         
@@ -22,7 +21,7 @@ Try the following command to make sure the installation was successful
 
 # Tools provided
 
-## ios_sign
+## Sign
 Manipulates .ipa archive's signature. 
 
 This tool comes handy when you want re-sign bundle in order to test in with
@@ -38,7 +37,7 @@ your own provisioning profile.
  
 Command line:
 
-    $> ios_sign -i "iPhone Distribution: Acme Ltd" -p ~/my_profiles/Acme_Enterprise_Distribution.mobileprovision -o Acme-QA-Test.ipa Acme.ipa
+    $> ios_tool sign -i "iPhone Distribution: Acme Ltd" -p ~/my_profiles/Acme_Enterprise_Distribution.mobileprovision -o Acme-QA-Test.ipa Acme.ipa
 
 ***Re-sign .ipa archive with enterprise profile and change bundle id for testing purposes.***
 
@@ -50,7 +49,7 @@ Command line:
  
 Command line:
 
-    $> ios_sign -i "iPhone Distribution: Acme Ltd" -p ~/my_profiles/Acme_Enterprise_Distribution.mobileprovision -o Acme-QA-Test.ipa -b com.acme.qa.app Acme.ipa
+    $> ios_tool sign -i "iPhone Distribution: Acme Ltd" -p ~/my_profiles/Acme_Enterprise_Distribution.mobileprovision -o Acme-QA-Test.ipa -b com.acme.qa.app Acme.ipa
 
 
 ## ios_verify

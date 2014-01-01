@@ -57,7 +57,8 @@ module IOSDevTools
       options = Hash.new
       OptionParser.new do |opts|
 
-        opts.banner = "Usage: ios_sign -i \"iPhone Distribution: Name\" -p path/to/profile -o output/ipa/file [options] inputIpa"
+        opts.banner = "Usage:
+ios_tool sign -i \"iPhone Distribution: Name\" -p path/to/profile -o output/ipa/file [options] inputIpa"
 
         opts.separator ""
         opts.separator "Options:"

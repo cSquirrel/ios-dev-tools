@@ -9,7 +9,7 @@ Typical installation should be as easy as executing the following command:
 
     $> sudo gem install ios-dev-tools
     
-Thsi will install ruby gem and binaries. Common destination for the binaries is '/usr/bin/ios_sign' folder.
+Thsi will install ruby gem and binaries. Common destination for the binaries is '/usr/bin/' folder.
 
 Try the following command to make sure the installation was successful
 

@@ -15,7 +15,7 @@ end
 
 task :publish => [:package] do |t|
 
-  is_wc_clean=`git status`.include?("nothing to commit, working directory clean")
+  is_wc_clean=`git status`.include?("nothing to commit")
 
   if not is_wc_clean
     puts "\nERROR: Refusing to publish.\nWorking copy contains changes. Commit the changes or stash them.\n\n"

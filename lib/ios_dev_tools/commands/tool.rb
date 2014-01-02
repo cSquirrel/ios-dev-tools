@@ -47,16 +47,16 @@ module IOSDevTools
       # create class definition
       command_class=nil
       begin
-        command_class=Object.const_get("IOSDevTools::#{class_name}")
-      rescue NameError,e
+        command_class=IOSDevTools.const_get(class_name)
+      rescue NameError
+        #puts "Can't access class #{class_name}"
       end
       return command_class
     end
 
     def self.command_name_to_class_name command_name
 
-      result=command_name.split("_").map{|e| e[0]=e[0].upcase; e;}.join
-      result="IOSDevTools::#{result}"
+      result=command_name.split("_").map{|e| e[0]=e[0].chr.upcase; e;}.join
       result
 
     end

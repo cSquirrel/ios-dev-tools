@@ -6,14 +6,14 @@ class ToolTest < Test::Unit::TestCase
   def test_simple_command_name_to_class_name
 
     result=IOSDevTools::Tool.command_name_to_class_name "command"
-    assert_equal "IOSDevTools::Command", result
+    assert_equal "Command", result
 
   end
 
   def test_snake_command_name_to_class_name
 
       result=IOSDevTools::Tool.command_name_to_class_name "snake_command"
-      assert_equal "IOSDevTools::SnakeCommand", result
+      assert_equal "SnakeCommand", result
 
   end
 

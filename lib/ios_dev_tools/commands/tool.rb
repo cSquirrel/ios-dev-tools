@@ -41,15 +41,24 @@ module IOSDevTools
     end
 
     def self.command_name_to_class command_name
-      # convert snake case to camel case
-      c=command_name.gsub(/(?<=_|^)(\w)/){$1.upcase}.gsub(/(?:_)(\w)/,'\1')
+
+      class_name=command_name_to_class_name command_name
+
       # create class definition
       command_class=nil
       begin
-        command_class=Object.const_get("IOSDevTools::#{c}")
+        command_class=Object.const_get("IOSDevTools::#{class_name}")
       rescue NameError,e
       end
       return command_class
+    end
+
+    def self.command_name_to_class_name command_name
+
+      result=command_name.split("_").map{|e| e[0]=e[0].upcase; e;}.join
+      result="IOSDevTools::#{result}"
+      result
+
     end
 
     def self.parse_options(args)

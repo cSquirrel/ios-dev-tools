@@ -1,7 +1,7 @@
 require 'test/unit'
 require 'ios_dev_tools'
 
-class ApplicationBundleTest < Test::Unit::TestCase
+class InfoPlistTest < Test::Unit::TestCase
 
   def test_create_with_file
 

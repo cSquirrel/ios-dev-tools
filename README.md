@@ -9,9 +9,13 @@ Typical installation should be as easy as executing the following command:
 
     $> sudo gem install ios-dev-tools
     
-Thsi will install ruby gem and binaries. Common destination for the binaries is '/usr/bin/' folder.
+or this one if your network uses proxy to control internet access:
 
-Try the following command to make sure the installation was successful
+    $> sudo gem install --http-proxy=http://corporate.proxy-server.net:1235 ios-dev-tools
+    
+This will install ruby gem and binaries. Common destination for the binaries is '/usr/bin/' folder.
+
+After the installation execute the following command to make sure the installation was successful
 
     $> ios_tool -h
     

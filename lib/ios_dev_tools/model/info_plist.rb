@@ -23,7 +23,7 @@ module IOSDevTools
 
     def set_property property_id, property_value
       return if not property_id or not property_value
-      `#{@plist_buddy_cmd} -c "Set :#{property_id} #{new_name}" "#{@info_plist_file_path}"`
+      `#{@plist_buddy_cmd} -c "Set :#{property_id} #{property_value}" "#{@info_plist_file_path}"`
     end
 
     def get_property property_id

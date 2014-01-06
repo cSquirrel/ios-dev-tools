@@ -44,7 +44,7 @@ module IOSDevTools
       begin
         provisioning_profile=IOSDevTools::ProvisioningProfile.new @options[:profile_location]
         application_bundle=IOSDevTools::ApplicationBundle.new @options[:input_file] do |ab|
-          ab.temp_folder=options[:temp_folder]
+          ab.temp_folder=@options[:temp_folder]
         end
       rescue => error
         error_msg error
@@ -52,7 +52,7 @@ module IOSDevTools
       end
 
       new_bundle_id = @options[:bundle_id]
-      new_bundle_id ||= application_bundle.bundle_id
+      new_bundle_id ||= application_bundle.info_plist.bundle_id
 
       if not provisioning_profile.is_compatible_with_bundle_id new_bundle_id
         error_msg "Provisioning profile identifier [#{provisioning_profile.application_identifier}] is not compatible with bundle identifier [#{new_bundle_id}]\n \
@@ -60,12 +60,12 @@ module IOSDevTools
         exit 1
       end
 
-      application_bundle.bundle_id = new_bundle_id
+      application_bundle.info_plist.bundle_id = new_bundle_id
       application_bundle.set_provisioning_profile provisioning_profile.profile_location
       application_bundle.sign_with_identity @options[:identity]
       application_bundle.package_to_ipa @options[:output_ipa]
 
-      puts "\nApplication archive created and signed: #{options[:output_ipa]}"
+      puts "\nApplication archive created and signed: #{@options[:output_ipa]}"
 
     end
 

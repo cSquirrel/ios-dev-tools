@@ -1,4 +1,3 @@
-
 #
 #
 #
@@ -7,10 +6,10 @@ module IOSDevTools
   #
   #
   #
-  class VerifyDefaultImage
+  class VerifyForbiddenSymbols
 
   def verify application_bundle
-    puts "VerifyDefaultImage"
+    puts "VerifyForbiddenSymbols"
   end
 
   end

@@ -2,9 +2,120 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>MATM-CBN</key>
+	<string></string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>DTPlatformVersion</key>
+	<string>6.1</string>
+	<key>CFBundleIconFile</key>
+	<string>Icon.png</string>
+	<key>CFBundleName</key>
+	<string>Bundle name</string>
+	<key>DTSDKName</key>
+	<string>iphoneos6.1</string>
+	<key>MIDlet-Version</key>
+	<string>2.0.1</string>
+	<key>SPLASH_SCREEN_TEXT_COLOUR</key>
+	<string>FFFFFF</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>Icon.png</string>
+				<string>Icon@2x.png</string>
+				<string>Icon-60.png</string>
+				<string>Icon-60@2x.png</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleOpaqueBlack</string>
+	<key>LANGUAGE-CODE</key>
+	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Dummy Bundle</string>
+	<string>Bundle display name</string>
+	<key>DTSDKBuild</key>
+	<string>10B141</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>CFBundleSupportedPlatforms</key>
+	<array>
+		<string>iPhoneOS</string>
+	</array>
+	<key>BuildMachineOSBuild</key>
+	<string>12E55</string>
+	<key>DTPlatformBuild</key>
+	<string>10B141</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>DTXcodeBuild</key>
+	<string>4H1003</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>string value</key>
+	<string></string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0</string>
+	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>MinimumOSVersion</key>
+	<string>4.3</string>
+	<key>UIApplicationExitsOnSuspend</key>
+	<false/>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+	</array>
+	<key>SBUsesNetwork</key>
+	<true/>
 	<key>CFBundleIdentifier</key>
-	<string>com.csquirrel.dummy.bundle</string>
+	<string>com.csquirrel.app.DummyApp</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>Icon.png</string>
+		<string>Icon@2x.png</string>
+		<string>Icon-60.png</string>
+		<string>Icon-60@2x.png</string>
+	</array>
+	<key>COUNTRY-CODE</key>
+	<string>US</string>
+	<key>DTXcode</key>
+	<string>0462</string>
+	<key>PUSH-NOTIFICATION-APP-ID - 2</key>
+	<string></string>
+	<key>SPLASH_SCREEN_SPINNER_STYLE</key>
+	<string>GREY</string>
+	<key>CFBundleExecutable</key>
+	<string>DummyApp</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>PUSH-NOTIFICATION-APP-ID</key>
+	<string></string>
+	<key>DTPlatformName</key>
+	<string>iphoneos</string>
+	<key>CFBundleResourceSpecification</key>
+	<string>ResourceRules.plist</string>
+	<key>DTCompiler</key>
+	<string></string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Font1</string>
+		<string>Font2</string>
+		<string>Font3</string>
+		<string>Font4</string>
+	</array>
 </dict>
 </plist>

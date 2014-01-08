@@ -63,19 +63,23 @@ module IOSDevTools
     def current_identity
 
       invalid_signature=`codesign -d -vv "#{@location}" 2>&1`.include? "invalid signature"
-      return "Invalid signature" if invalid_signature
+      return :INVALID_SIGNATURE if invalid_signature
 
       codesign_output=`codesign -d -vv "#{@location}" 2>&1 | grep "Authority"`
       info=codesign_output.lines.first
       return info.strip.split("=")[1] if info
 
-      return nil
+      return :INVALID_SIGNATURE
 
     end
 
     def package_to_ipa ipa_file_location
       return if not ipa_file_location
       `(cd #{@temp_folder} && zip -qr ../temp.ipa *) && mv temp.ipa "#{ipa_file_location}"`
+    end
+
+    def mobileprovision_path
+      return "#{location}/embedded.mobileprovision"
     end
 
   end

@@ -1,5 +1,33 @@
 module IOSDevTools
 
+  #NSString *const kCFBundleIconFile                           = @"CFBundleIconFile";
+  #NSString *const kCFBundleIconFiles                          = @"CFBundleIconFiles";
+  #NSString *const kCFBundleShortVersionString                 = @"CFBundleShortVersionString";
+  #NSString *const kCFBundlePackageType                        = @"CFBundlePackageType";
+  #NSString *const kMinimumOSVersion                           = @"MinimumOSVersion";
+  #NSString *const kLSMinimumSystemVersion                     = @"LSMinimumSystemVersion";
+  #NSString *const kLSRequiresIPhoneOS                         = @"LSRequiresIPhoneOS";
+  #NSString *const kUILaunchImageFile                          = @"UILaunchImageFile";
+  #NSString *const kUILaunchImageFileIphone                    = @"UILaunchImageFile~iphone";
+  #NSString *const kUILaunchImageFileIpad                      = @"UILaunchImageFile~ipad";
+  #NSString *const kUISupportedInterfaceOrientations           = @"UISupportedInterfaceOrientations";
+  #NSString *const kUISupportedInterfaceOrientationsIphone     = @"UISupportedInterfaceOrientations~iphone";
+  #NSString *const kUISupportedInterfaceOrientationsIpad       = @"UISupportedInterfaceOrientations~ipad";
+  #NSString *const kUIDeviceFamily                             = @"UIDeviceFamily";
+  #NSString *const kCFBundleSupportedPlatforms                 = @"CFBundleSupportedPlatforms";
+  #NSString *const kCFBundleDisplayName                        = @"CFBundleDisplayName";
+  #NSString *const kDTPlatformName                             = @"DTPlatformName";
+  #NSString *const kUIAppFonts                                 = @"UIAppFonts";
+  #NSString *const kCFBundleIcons                              = @"CFBundleIcons";
+  #NSString *const kCFXcodeBuild                               = @"DTXcodeBuild";
+  #NSString *const kCFXcodeVersion                             = @"DTXcode";
+  #
+  #NSString *const kUIRequiredDeviceCapabilities               = @"UIRequiredDeviceCapabilities";
+  #NSString *const kUIApplicationExitsOnSuspend                = @"UIApplicationExitsOnSuspend";
+  #NSString *const kUIFileSharingEnabled                       = @"UIFileSharingEnabled";
+  #NSString *const kUIViewEdgeAntialiasing                     = @"UIViewEdgeAntialiasing";
+  #NSString *const kUIViewGroupOpacity                         = @"UIViewGroupOpacity";
+
   #
   #
   #
@@ -44,6 +72,46 @@ module IOSDevTools
 
     def bundle_id= new_bundle_id
       set_property "CFBundleIdentifier", new_bundle_id
+    end
+
+    def xcode_build_number
+      get_property "DTXcodeBuild"
+    end
+
+    def xcode_version
+      get_property "DTXcode"
+    end
+
+    def device_family
+      parse_array_string get_property "UIDeviceFamily"
+    end
+
+    def bundle_icon_file
+      get_property "CFBundleIconFile"
+    end
+
+    def bundle_icon_files
+      parse_array_string get_property "CFBundleIconFiles"
+    end
+
+    def bundle_version
+      get_property "CFBundlePackageType"
+    end
+
+    def bundle_short_version
+      get_property "CFBundleShortVersionString"
+    end
+
+    def app_fonts
+      parse_array_string get_property "UIAppFonts"
+    end
+
+    def parse_array_string array_string
+      value=array_string
+      if not value.empty?
+        value=value.split("\n")[1..-2].map {|e| e.strip! }
+      end
+      value
     end
 
   end

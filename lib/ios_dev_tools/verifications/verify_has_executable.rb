@@ -1,4 +1,3 @@
-
 #
 #
 #
@@ -7,10 +6,10 @@ module IOSDevTools
   #
   #
   #
-  class VerifyDefaultImage
+  class VerifyHasExecutable
 
   def verify application_bundle
-    puts "VerifyDefaultImage"
+    puts "VerifyHasExecutable"
   end
 
   end
